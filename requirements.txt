@@ -1,0 +1,4 @@
+schedule
+instagrapi==1.2.9
+numpy
+tinydb
