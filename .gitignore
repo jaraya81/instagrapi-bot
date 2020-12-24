@@ -1,0 +1,6 @@
+accounts/
+media_repo.json
+repo_test.json
+tests.py
+.idea
+__pycache__
