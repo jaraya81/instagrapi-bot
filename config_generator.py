@@ -55,6 +55,18 @@ def generate_params(user):
                          '213951068671822',
                          '214074940'],
         },
+        'welcome': {
+            'probability_of_execution': Instagram.random(0.7, 0.1),
+            'max_by_execution': int(Instagram.random(3, 1)),
+            'messages': ['Hi @$username, thanks for following me 😀👍',
+                         'Hello @$username, nice to meet you. Anytime you want you can look at my profile 🙋',
+                         'Hello @$full_name welcome to my world']
+        },
+        'like_comments': {
+            'probability_of_execution': Instagram.random(0.7, 0.1),
+            'max_medias_by_execution': int(Instagram.random(2, 1)),
+            'max_likes_by_execution': int(Instagram.random(3, 1)),
+        },
         'follow': {
             'probability_of_execution': Instagram.random(0.7, 0.1),
             'max_by_execution': int(Instagram.random(8, 1)),
@@ -63,13 +75,6 @@ def generate_params(user):
             'probability_of_execution': Instagram.random(0.5, 0.1),
             'max_by_execution': int(Instagram.random(3, 1)),
             'follows_to_start': int(Instagram.random(200, 50)),
-        },
-        'welcome': {
-            'probability_of_execution': Instagram.random(0.7, 0.1),
-            'max_by_execution': int(Instagram.random(3, 1)),
-            'messages': ['Hi @$username, thanks for following me 😀👍',
-                         'Hello @$username, nice to meet you. Anytime you want you can look at my profile 🙋',
-                         'Hello @$full_name welcome to my world']
         }
 
     }

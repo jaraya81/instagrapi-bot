@@ -5,12 +5,31 @@ import threading
 
 class Activity:
     WELCOME = 'welcome'
+    LIKE_COMMENTS = 'like_comments'
     FOLLOW = 'follow'
     UNFOLLOW = 'unfollow'
 
 
+def like_comments():
+    max_medias = parameters['like_comments']['max_medias_by_execution']
+    max_likes = parameters['like_comments']['max_likes_by_execution']
+    max_likes = int(Instagram.random(max_likes, max_likes * 0.2))
+
+    medias = ig.client.user_medias(ig.client.user_id, max_medias)
+    likes = 0
+    for media in medias:
+        comments = ig.client.media_comments(media.id)
+        comments = list(filter(lambda x: not x.has_liked, comments))
+        for comment in comments:
+            if likes >= max_likes:
+                break
+            if ig.comment_like(comment):
+                likes += 1
+        if likes >= max_likes:
+            break
+
+
 def welcome_new_followers():
-    log.info('welcome_new_followers')
     followers = ig.filter_new_followers(ig.user_followers(ig.client.user_id, amount=50))
     if len(ig.get_followers()) != 0:
         max_by_execution = int(ig.random(parameters['welcome']['max_by_execution']))
@@ -106,16 +125,25 @@ def main():
     log.info("Starting bot in thread %s" % threading.current_thread())
 
     if is_your_turn(parameters[Activity.WELCOME]['probability_of_execution']):
+        log.info(f"{Activity.WELCOME} it's your turn")
         welcome_new_followers()
     else:
         log.info(f"{Activity.WELCOME} it's not your turn")
 
+    if is_your_turn(parameters[Activity.LIKE_COMMENTS]['probability_of_execution']):
+        log.info(f"{Activity.LIKE_COMMENTS} it's your turn")
+        like_comments()
+    else:
+        log.info(f"{Activity.LIKE_COMMENTS} it's not your turn")
+
     if is_your_turn(parameters[Activity.FOLLOW]['probability_of_execution']):
+        log.info(f"{Activity.FOLLOW} it's your turn")
         follow()
     else:
         log.info(f"{Activity.FOLLOW} it's not your turn")
 
     if is_your_turn(parameters[Activity.UNFOLLOW]['probability_of_execution']):
+        log.info(f"{Activity.UNFOLLOW} it's your turn")
         unfollow()
     else:
         log.info(f"{Activity.UNFOLLOW} it's not your turn")

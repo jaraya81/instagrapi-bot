@@ -2,7 +2,7 @@ import json
 
 import numpy
 from instagrapi import Client
-from instagrapi.types import Media, Location
+from instagrapi.types import Media, Location, Comment
 from tinydb import TinyDB, Query
 from repository_medias import MediaRepo
 
@@ -426,3 +426,10 @@ class Instagram:
     @classmethod
     def read_credential(cls, user_path):
         return Instagram.read_file(Instagram.get_credential_path(user_path))
+
+    def comment_like(self, comment: Comment, revert: bool = False):
+        if self.client.comment_like(comment.pk, revert):
+            self.log.info(f"{'unlike' if revert else 'like'} comment -> {comment.user.username}: {comment.text}")
+            self.sleep(10)
+            return True
+        return False
