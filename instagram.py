@@ -2,6 +2,7 @@ import json
 
 import numpy
 from instagrapi import Client
+from instagrapi.exceptions import ClientNotFoundError
 from instagrapi.types import Media, Location, Comment
 from tinydb import TinyDB, Query
 from repository_medias import MediaRepo
@@ -126,7 +127,11 @@ class Instagram:
         :return:
         """
         if user[Static.PK] not in map(lambda x: x[Static.PK], self.get_unfollowing()):
-            result = self.client.user_unfollow(user[Static.PK])
+            result = False
+            try:
+                result = self.client.user_unfollow(user[Static.PK])
+            except ClientNotFoundError as error:
+                self.log.error(f'{user[Static.USERNAME]} not exist {error}')
             self.insert_unfollowing([user])
             self.sleep(30)
             return result
@@ -140,7 +145,11 @@ class Instagram:
         :return:
         """
         if user[Static.PK] not in map(lambda x: x[Static.PK], self.get_following()):
-            result = self.client.user_follow(user[Static.PK])
+            result = False
+            try:
+                result = self.client.user_follow(user[Static.PK])
+            except ClientNotFoundError as error:
+                self.log.error(f'{user[Static.USERNAME]} not exist {error}')
             self.insert_following([user])
             self.sleep(30)
             return result
