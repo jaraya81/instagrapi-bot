@@ -26,7 +26,7 @@ $ py config_generator.py -p /home/me/instagrapi/accounts
 $ vi /home/me/instagrapi/accounts/my.ig.user/config.json
 ```
 
-- Ejecuta el bot
+- Run the bot
 
 ```
 $ py ig_bot.py -p /home/me/instagrapi/accounts/my.ig.user
